@@ -49,7 +49,7 @@ pipeline {
                 }
             }
         }
-       
+    }
 
     // post-build
     post { 
