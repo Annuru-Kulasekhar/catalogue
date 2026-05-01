@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
+       /*  stage('Install Dependencies') {
             steps {
                 script{
                     sh """
@@ -41,7 +41,7 @@ pipeline {
                     """
                 }
             }
-        }
+        } */
         /* stage('SonarQube Analysis') {
             steps {
                 script {
@@ -110,9 +110,8 @@ pipeline {
                     withAWS(credentials: 'aws-creds', region: "${region}") {
                         //commands here AWS authentication
                         sh """
-                            aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.${region}.amazonaws.com
+                            
                             docker build -t ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion} .
-                            docker push ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
                         """
                     }
                 }
@@ -159,8 +158,19 @@ pipeline {
                 }
             }
         }
-    }
-    
+        stage('Puh image to ECR')
+            steps {
+                script {
+                    withAWS(credentials: 'aws-creds', region: "${region}") {
+                        //commands here AWS authentication
+                        sh """
+                            aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.${region}.amazonaws.com
+                            docker push ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
+                        """
+                    }
+                }
+            }
+        }
 
     // post-build
     post { 
