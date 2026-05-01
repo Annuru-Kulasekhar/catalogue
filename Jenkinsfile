@@ -158,7 +158,7 @@ pipeline {
                 }
             }
         }
-        stage('Puh image to ECR')
+        stage('Puh image to ECR') {
             steps {
                 script {
                     withAWS(credentials: 'aws-creds', region: "${region}") {
