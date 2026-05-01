@@ -171,6 +171,7 @@ pipeline {
                 }
             }
         }
+    }
 
     // post-build
     post { 
